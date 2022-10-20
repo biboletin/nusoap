@@ -1,3 +1,4 @@
 .php-cs-fixer.cache
 /vendor
 /.vscode
+.phpunit.cache/
