@@ -1,5 +1,9 @@
 <?php
 
+namespace Biboletin\Nusoap\Tests;
+
+include '../vendor/autoload.php';
+
 use Biboletin\Nusoap\Debugger;
 use PHPUnit\Framework\TestCase;
 use Biboletin\Nusoap\NuSoap;

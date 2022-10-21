@@ -2,13 +2,16 @@
     "name": "biboletin/nusoap",
     "description": "PHP NuSOAP library for PHP version 8 >=",
     "type": "library",
-    "require": {},
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Biboletin\\Nusoap\\": "src/",
-            "Biboletin\\Nusoap\\Traits\\": "src/Traits/"
-        }
+            "Biboletin\\Nusoap\\Traits\\": "src/Traits/",
+            "Biboletin\\Nusoap\\BackwardCompatibility\\": "src/BackwardCompatibility/"
+        },
+        "files": [
+            "src/functions/functions.php"
+        ]
     },
     "authors": [
         {
@@ -16,5 +19,8 @@
             "email": "biboletin87@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "10.0.x-dev"
+    }
 }

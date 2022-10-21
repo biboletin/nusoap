@@ -98,4 +98,20 @@ class Debugger
         $result = date('Y-m-d H:M:S', $sec) . sprintf('%06d', $usec);
         return $result;
     }
+
+    /**
+     * Returns a string with the output of var_dump
+     *
+     * @param mixed $data The variable to var_dump
+     *
+     * @return string The output of var_dump
+     */
+    public function varDump($data): string
+    {
+        ob_start();
+        var_dump($data);
+        $returnValue = ob_get_contents();
+        ob_end_clean();
+        return $returnValue;
+    }
 }
