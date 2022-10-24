@@ -55,12 +55,6 @@ use Biboletin\Nusoap\NuSoapClient;
 class NuSoapClientMime extends NuSoapClient
 {
     /**
-     * $debugger
-     *
-     * @var Debugger
-     */
-    private Debugger $debugger;
-    /**
      * Each array element in the return is an associative array with keys
      * data, filename, contenttype, cid
      *
@@ -81,7 +75,7 @@ class NuSoapClientMime extends NuSoapClient
      */
     private string $mimeContentType;
 
-    public function __construct(Debugger $debugger)
+    public function __construct(private Debugger $debugger)
     {
         $this->debugger = $debugger;
         $this->requestAttachments = [];
