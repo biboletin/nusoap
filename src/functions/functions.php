@@ -50,5 +50,49 @@ function timestampToIso8601(int $timestamp, bool $utc = true)
  */
 function iso8601ToTimestamp(string $dateString)
 {
+    $pattern = '/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):';
+    $pattern .= '([0-9]{2})(\.[0-9]+)?(Z|[+\-][0-9]{2}:?[0-9]{2})?/';
+    if (preg_match($pattern, $dateString, $regs)) {
+        // not utc
+        if ($regs[8] !== 'Z') {
+            $op = substr($regs[8], 0, 1);
+            $h = (int) substr($regs[8], 1, 2);
+            $m = (int) substr($regs[8], strlen($regs[8]) - 2, 2);
+            if ($op === '-') {
+                $regs[4] = (int) $regs[4] + $h;
+                $regs[5] = (int) $regs[5] + $m;
+            } elseif ($op === '+') {
+                $regs[4] = (int) $regs[4] - $h;
+                $regs[5] = (int) $regs[5] - $m;
+            }
+        }
+        $result = gmmktime(
+            intval($regs[4]),
+            intval($regs[5]),
+            intval($regs[6]),
+            intval($regs[2]),
+            intval($regs[3]),
+            intval($regs[1])
+        );
+        return $result;
+    }
+    return false;
+}
 
+/**
+ * Sleeps some number of microseconds
+ *
+ * @param string $usec the number of microseconds to sleep
+ *
+ * @return void
+ */
+function usleepWindows(string $usec): void
+{
+    $start = gettimeofday();
+
+    do {
+        $stop = gettimeofday();
+        $timePassed = 1000000 * ($stop['sec'] - $start['sec'])
+        + $stop['usec'] - $start['usec'];
+    } while ($timePassed < $usec);
 }
