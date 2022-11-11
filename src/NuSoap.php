@@ -2,21 +2,13 @@
 
 namespace Biboletin\Nusoap;
 
+use Biboletin\Nusoap\NuSoapBase;
 use Biboletin\Nusoap\Debugger;
-use Biboletin\Nusoap\Traits\NuSoapGetters;
-use Biboletin\Nusoap\Traits\NuSoapSetters;
-use Biboletin\Nusoap\Traits\NuSoapProperties;
 
-class NuSoap
+class NuSoap extends NuSoapBase
 {
-    use NuSoapProperties;
-    use NuSoapSetters;
-    use NuSoapGetters;
-
-    private Debugger $debugger;
-
-    public function __construct(Debugger $debugger)
+    public function __construct()
     {
-        $this->debugger = $debugger;
+        $this->debugger = new Debugger();
     }
 }

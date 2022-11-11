@@ -4,44 +4,90 @@ namespace Biboletin\Nusoap;
 
 class Debugger
 {
+    /**
+     * Current error string (manipulated by getError/setError)
+     *
+     * @var string
+     */
     private string $errorString = '';
+    /**
+     * Current debug string (manipulated by debug/appendDebug/clearDebug/getDebug/getDebugAsXMLComment)
+     *
+     * @var string
+     */
     private string $debugString = '';
+    /**
+     * The debug level for this instance
+     *
+     * @var int
+     */
     private int $debugLevel = 0;
 
     public function __construct()
     {
-        //
+        $GLOBALS['_transient']['static']['nusoap_base']['globalDebugLevel'] = 9;
     }
 
+    /**
+     * Sets the global debug level, which applies to future instances
+     *
+     * @param int $level Debug level 0-9, where 0 turns off
+     *
+     * @return void
+     */
     public function setGlobalDebugLevel(int $level): void
     {
         $GLOBALS['_transient']['static']['nusoap_base']['globalDebugLevel'] = $level;
     }
 
+    /**
+     * Sets the debug level for this instance
+     *
+     * @param int $level Debug level 0-9, where 0 turns off
+     *
+     * @return void
+     */
     public function setDebugLevel(int $level): void
     {
         $this->debugLevel = $level;
     }
 
+    /**
+     * Sets error string
+     *
+     * @param string $string error string
+     *
+     * @return void
+     */
     public function setError(string $string): void
     {
         $this->errorString = $string;
     }
 
+    /**
+     * Gets the global debug level, which applies to future instances
+     *
+     * @return int
+     */
     public function getGlobalDebugLevel(): int
     {
         return $GLOBALS['_transient']['static']['nusoap_base']['globalDebugLevel'];
     }
 
+    /**
+     * Gets the debug level for this instance
+     *
+     * @return int Debug level 0-9, where 0 turns off
+     */
     public function getDebugLevel(): int
     {
         return $this->debugLevel;
     }
 
     /**
-     * Get error
+     * Returns error string if present
      *
-     * @return bool|string
+     * @return mixed error string or false
      */
     public function getError(): mixed
     {
@@ -51,6 +97,13 @@ class Debugger
         return false;
     }
 
+    /**
+     * Adds debug data to the instance debug string with formatting
+     *
+     * @param string $string debug data
+     *
+     * @return void
+     */
     public function debug(string $string): void
     {
         if ($this->debugLevel > 0) {
@@ -60,6 +113,13 @@ class Debugger
         }
     }
 
+    /**
+     * Adds debug data to the instance debug string without formatting
+     *
+     * @param string $string debug data
+     *
+     * @return void
+     */
     public function appendDebug(string $string): void
     {
         if ($this->debugLevel > 0) {
@@ -67,16 +127,32 @@ class Debugger
         }
     }
 
+    /**
+     * Clears the current debug data for this instance
+     *
+     * @return void
+     */
     public function clearDebug(): void
     {
         $this->debugString = '';
     }
 
+    /**
+     * Gets the current debug data for this instance
+     *
+     * @return string
+     */
     public function getDebug(): string
     {
         return $this->debugString;
     }
 
+    /**
+     * Gets the current debug data for this instance as an XML comment
+     * this may change the contents of the debug data
+     *
+     * @return string debug data as an XML comment
+     */
     public function getDebugAsXmlComment(): string
     {
         while (strpos($this->debugString, '--')) {

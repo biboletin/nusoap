@@ -100,11 +100,13 @@ class NuSoapClientMime extends NuSoapClient
      */
     public function addAttachment(
         string $data,
-        string $filename = '',
-        string $contenttype = 'application/octet-stream',
-        mixed $cid = false
+        string $filename,
+        string $contenttype,
+        string $cid
     ): string {
-        if (!$cid) {
+        $contenttype = ($contenttype !== '') ?? 'application/octet-stream';
+        $cid = ($cid !== '') ?? '';
+        if ($cid !== '') {
             $cid = md5(uniqid((string) time()));
         }
         $info = [];
@@ -112,9 +114,7 @@ class NuSoapClientMime extends NuSoapClient
         $info['filename'] = $filename;
         $info['contenttype'] = $contenttype;
         $info['cid'] = $cid;
-
         $this->requestAttachments[] = $info;
-
         return $cid;
     }
 
@@ -158,19 +158,21 @@ class NuSoapClientMime extends NuSoapClient
         $params['content_type'] = 'multipart/related; type="text/xml"';
         $mimeMessage = new \Mail_mimePart('', $params);
         unset($params);
-        $params = [];
-        $params['content_type'] = 'text/xml';
-        $params['encoding'] = '8bit';
-        $params['charset'] = parent::getSoapDefEncoding();
+        $params = [
+            'content_type' => 'text/xml',
+            'encoding' => '8bit',
+            'charset' => parent::getSoapDefEncoding(),
+        ];
         $mimeMessage->addSubpart($soapmsg, $params);
         foreach ($this->requestAttachments as $att) {
             unset($params);
-            $params = [];
-            $params['content_type'] = $att['contenttype'];
-            $params['encoding'] = 'base64';
-            $params['disposition'] = 'attachment';
-            $params['dfilename'] = $att['filename'];
-            $params['cid'] = $att['cid'];
+            $params = [
+                'content_type' => $att['contenttype'],
+                'encoding' => 'base64',
+                'disposition' => 'attachment',
+                'dfilename' => $att['filename'],
+                'cid' => $att['cid'],
+            ];
 
             if ($att['data'] === '' && $att['filename'] !== '') {
                 $data = '';

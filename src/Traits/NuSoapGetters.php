@@ -93,4 +93,14 @@ trait NuSoapGetters
         }
         return $this->xmlEntities;
     }
+
+    /**
+     * GetValue
+     *
+     * @return mixed
+     */
+    public function getValue(): mixed
+    {
+        return $this->value;
+    }
 }

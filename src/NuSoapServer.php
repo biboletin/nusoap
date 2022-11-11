@@ -2,6 +2,8 @@
 
 namespace Biboletin\Nusoap;
 
-class NuSoapServer
+use Biboletin\Nusoap\NuSoapBase;
+
+class NuSoapServer extends NuSoapBase
 {
 }

@@ -4,19 +4,68 @@ namespace Biboletin\Nusoap\Traits;
 
 trait NuSoapProperties
 {
+    /**
+     * Identification for HTTP headers.
+     *
+     * @var string
+     */
     private string $title = 'NuSOAP';
+    /**
+     * Version for HTTP headers.
+     *
+     * @var string
+     */
     private string $version = '0.9.5';
+    /**
+     * CVS revision for HTTP headers.
+     *
+     * @var string
+     */
     private string $revision = '$Revision: 1.123 $';
+    /**
+     * Toggles automatic encoding of special characters as entities
+     * (should always be true, I think)
+     *
+     * @var bool
+     */
     private bool $charencoding = true;
+    /**
+     * Set schema version
+     *
+     * @var string
+     */
     private string $xmlSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
+    /**
+     * Charset encoding for outgoing messages
+     *
+     * @var string
+     */
     private string $soapDefEncoding = 'ISO-8859-1';
+    /**
+     * Namespaces in an array of prefix => uri
+     * this is "seeded" by a set of constants, but it may be altered by code
+     *
+     * @var array
+     */
     private array $namespaces = [
         'SOAP-ENV' => 'http://schemas.xmlsoap.org/soap/envelope/',
         'xsd' => 'http://www.w3.org/2001/XMLSchema',
         'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
         'SOAP-ENC' => 'http://schemas.xmlsoap.org/soap/encoding/',
     ];
+    /**
+     * Namespaces used in the current context, e.g. during serialization
+     *
+     * @var array
+     */
     private array $usedNamespaces = [];
+    /**
+     * XML Schema types in an array of uri => (array of xml type => php type)
+     * is this legacy yet?
+     * no, this is used by the nusoap_xmlschema class to verify type => namespace mappings.
+     *
+     * @var array
+     */
     private array $typemap = [
         'http://www.w3.org/2001/XMLSchema' => [
             'string' => 'string',
@@ -103,6 +152,11 @@ trait NuSoapProperties
             'Map',
         ],
     ];
+    /**
+     * XML entities to convert
+     *
+     * @var array
+     */
     private array $xmlEntities = [
         'quot' => '"',
         'amp' => '&',
@@ -110,4 +164,23 @@ trait NuSoapProperties
         'gt' => '>',
         'apos' => "'",
     ];
+
+    /**
+     * Argument from
+     * class NuSoapBase
+     * method serializeVal
+     *
+     * $value
+     *
+     * @var mixed
+     */
+    private mixed $value;
+    private string $name;
+    private string $type;
+    private string $nameNs;
+    private string $typeNs;
+    private array $attributes;
+    private string $use;
+    private bool $soapval;
+
 }
