@@ -12,22 +12,19 @@ function timestampToIso8601(int $timestamp, bool $utc = true)
 {
     $dateString = date('Y-m-d\TH:i:sO', $timestamp);
     $position = strpos($dateString, '+');
-
     if ($position === false) {
         $position = strpos($dateString, '-');
     }
-
     if ($position && strlen($dateString) === $position + 5) {
         $dateString = substr($dateString, 0, $position + 3) . ':' . substr($dateString, -2);
     }
-
     if ($utc === false) {
         return $dateString;
     }
     $pattern = '/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})';
     $pattern .= '(\.[0-9]*)?(Z|[+\-][0-9]{2}:?[0-9]{2})?/';
     if (preg_match($pattern, $dateString, $regs)) {
-        $result = sprintf(
+        return sprintf(
             '%04d-%02d-%02dT%02d:%02d:%02dZ',
             $regs[1],
             $regs[2],
@@ -36,7 +33,6 @@ function timestampToIso8601(int $timestamp, bool $utc = true)
             $regs[5],
             $regs[6],
         );
-        return $result;
     }
     return false;
 }
@@ -66,7 +62,7 @@ function iso8601ToTimestamp(string $dateString)
                 $regs[5] = (int) $regs[5] - $m;
             }
         }
-        $result = gmmktime(
+        return gmmktime(
             intval($regs[4]),
             intval($regs[5]),
             intval($regs[6]),
@@ -74,7 +70,6 @@ function iso8601ToTimestamp(string $dateString)
             intval($regs[3]),
             intval($regs[1])
         );
-        return $result;
     }
     return false;
 }

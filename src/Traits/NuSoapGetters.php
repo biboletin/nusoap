@@ -69,12 +69,12 @@ trait NuSoapGetters
      *
      * @param string $key
      *
-     * @return string|array
+     * @return mixed
      */
     public function getTypemap(string $key)
     {
         if ($key !== '') {
-            return $this->typemap[$key];
+            return $this->typemap[$key] ?? null;
         }
         return $this->typemap;
     }

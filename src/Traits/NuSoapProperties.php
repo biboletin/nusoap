@@ -182,5 +182,4 @@ trait NuSoapProperties
     private array $attributes;
     private string $use;
     private bool $soapval;
-
 }
