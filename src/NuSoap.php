@@ -7,8 +7,7 @@ use Biboletin\Nusoap\Debugger;
 
 class NuSoap extends NuSoapBase
 {
-    public function __construct()
+    public function __construct(private Debugger $debugger)
     {
-        $this->debugger = new Debugger();
     }
 }
